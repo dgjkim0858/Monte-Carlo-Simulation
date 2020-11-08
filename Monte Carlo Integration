@@ -1,0 +1,78 @@
+#
+# 몬테카를로 시뮬레이션으로 정적분 근삿값 구하기 
+#
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+def func1(x):
+  return ((x-np.sqrt(x))**2)
+
+def func2(x):
+  return (np.exp(3*x)+np.exp(-3*x))
+
+def func3(x):
+  return (np.sin(2*x)+np.cos(x))
+
+def integrate(x1,x2,func,n=100000):
+    X=np.linspace(x1,x2,1000)
+    y1=0
+    y2=max(func(X))+0.1
+    # print(x1,x2,y1,y2)
+    area=(x2-x1)*(y2-y1)
+    check=[]
+    xs=[]
+    ys=[]
+    for i in range(n):
+        x=np.random.uniform(x1,x2,1)
+        xs.append(x)
+        y=np.random.uniform(y1,y2,1)
+        ys.append(y)
+        if abs(y)>abs(func(x)) or y<0:
+            check.append(0)
+        else:
+            check.append(1)
+    return(np.mean(check)*area,xs,ys,check)
+
+#### func1
+print(integrate(0,1,func1)[0])  ## 1/30
+_,x,y,c=integrate(0,1,func1,n=2000)
+df=pd.DataFrame()
+df['x']=x
+df['y']=y
+df['c']=c
+
+X=np.linspace(0,1,1000)
+plt.plot(X,func1(X))
+plt.scatter(df[df['c']==0]['x'],df[df['c']==0]['y'],color='yellow')
+plt.scatter(df[df['c']==1]['x'],df[df['c']==1]['y'],color='blue')
+plt.show()
+
+#### func2
+print(integrate(-1,1,func2)[0])  ## 2/3*(np.exp(3)-1/np.exp(3)): 13.357 
+_,x,y,c=integrate(-1,1,func2,n=2000)
+df=pd.DataFrame()
+df['x']=x
+df['y']=y
+df['c']=c
+
+X=np.linspace(-1,1,1000)
+plt.plot(X,func2(X))
+plt.scatter(df[df['c']==0]['x'],df[df['c']==0]['y'],color='yellow')
+plt.scatter(df[df['c']==1]['x'],df[df['c']==1]['y'],color='blue')
+plt.show()
+
+#### func3
+print(integrate(0,np.pi/2,func3)[0])  ## 2
+_,x,y,c=integrate(0,np.pi/2,func3,n=2000)
+df=pd.DataFrame()
+df['x']=x
+df['y']=y
+df['c']=c
+
+X=np.linspace(0,np.pi/2,1000)
+plt.plot(X,func3(X))
+plt.scatter(df[df['c']==0]['x'],df[df['c']==0]['y'],color='yellow')
+plt.scatter(df[df['c']==1]['x'],df[df['c']==1]['y'],color='blue')
+plt.show()
