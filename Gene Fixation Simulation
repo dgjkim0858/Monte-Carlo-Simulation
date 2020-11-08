@@ -1,0 +1,31 @@
+#
+# 유전자 고정에 걸린 세대수 평균 시뮬레이션
+#
+
+import numpy as np
+
+N = 100
+
+def create():
+  fool = []
+  for i in range(2*N):
+    if i%2 == 0:
+      fool.append('A')
+    else:
+      fool.append('a')
+    
+  num_ge = 1
+
+  while True:
+    num_ge = num_ge+1
+    fool = np.random.choice(fool,(2*N)).tolist()
+    if fool.count('A')==0 or fool.count('A')==(N*2):
+      return num_ge
+
+count = 10
+while count<=10000:
+  sumg = 0
+  for i in range(count):
+    sumg = sumg+create()  
+  print(count, ':', sumg/count)
+  count = count*10
