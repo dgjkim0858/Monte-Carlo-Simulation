@@ -1,0 +1,34 @@
+#
+# 유전적 부동 시뮬레이션 시각화
+#
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 10000
+
+def create():
+  fool = []
+  for i in range(2*N):
+    if i%2 == 0:
+      fool.append('A')
+    else:
+      fool.append('a')
+
+  pA = [(fool.count('A')*100)//(2*N)]
+  
+  for i in range(100):
+    fool = np.random.choice(fool, (2*N)).tolist()
+    pA.append((fool.count('A')*100)//(2*N))
+  return pA
+
+for i in range(10):
+  perA = create()
+  ind = np.arange(len(perA))
+  plt.plot(ind, perA)
+
+plt.title('N=10000')
+plt.xlabel('generation')
+plt.ylim(0, 100)
+plt.xlim(0, 100)
+plt.show()
