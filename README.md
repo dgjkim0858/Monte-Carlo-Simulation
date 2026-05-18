@@ -1,5 +1,4 @@
 # Monte Carlo Simulation
-파이썬을 활용한 몬테카를로 시뮬레이션
 
 <b>Execution Result of the Gene Fixation Simulation (Average Number of Generations Required for Gene Fixation)</b><br>
 10 : 347.7<br>
